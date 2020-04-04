@@ -46,6 +46,8 @@ type PriceHistory struct {
 	Time          int    `json:"Time"`
 }
 
+const polling_interval = 300
+
 func initializeDB() {
 	database, _ := sql.Open("sqlite3", "./pricing_tool.db")
 	statement, _ := database.Prepare("CREATE TABLE IF NOT EXISTS Orchestrators (Address TEXT PRIMARY KEY, ServiceURI TEXT, LastRewardRound INTEGER, RewardCut INTEGER, FeeShare INTEGER, DelegatedState INTEGER, ActivationRound INTEGER, DeactivationRound INTEGER, Active INTEGER, Status TEXT, PricePerPixel INTEGER, UpdateAt INTEGER)")
@@ -97,6 +99,13 @@ func fetchAndStore() {
 	}
 }
 
+func pollForData() {
+	for {
+		fetchAndStore()
+		time.Sleep(polling_interval * time.Second)
+	}
+}
+
 // Method to get data from Orchestrator Table
 func GetOrchestratorStats(w http.ResponseWriter, req *http.Request) {
 	database, _ := sql.Open("sqlite3", "./pricing_tool.db")
@@ -130,7 +139,7 @@ func main() {
 
 	initializeDB()
 
-	fetchAndStore()
+	go pollForData()
 
 	router := mux.NewRouter()
 	router.HandleFunc("/orchestratorStats", GetOrchestratorStats).Methods("GET")

@@ -1,1 +1,2 @@
-pricing_tool.db
+*.log
+*.sqlite3

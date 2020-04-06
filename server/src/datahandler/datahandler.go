@@ -15,7 +15,7 @@ import (
 const broadcasterEndpoint = "http://localhost:7935/registeredOrchestrators"
 
 // Specified the time duration (in seconds) between data polls.
-const pollingInterval = 300
+const pollingInterval = 3600
 
 // Fetches the data from broadcaster endpoint, and stores it in the pricing tool DB.
 func GetData() []types.Orchestrator {

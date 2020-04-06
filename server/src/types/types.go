@@ -1,5 +1,9 @@
 package types
 
+import (
+	"math/big"
+)
+
 // Orchestrator is the type binding for the result from /registeredOrchestrators endpoint of livepeer broadcaster node.
 type Orchestrator struct {
 	Address           string `json:"Address"`
@@ -7,9 +11,9 @@ type Orchestrator struct {
 	LastRewardRound   int    `json:"LastRewardRound"`
 	RewardCut         int    `json:"RewardCut"`
 	FeeShare          int    `json:"FeeShare"`
-	DelegatedStake    int64  `json:"DelegatedStake"`
+	DelegatedStake    *big.Int  `json:"DelegatedStake"`
 	ActivationRound   int    `json:"ActivationRound"`
-	DeactivationRound int64  `json:"DeactivationRound"`
+	DeactivationRound *big.Int  `json:"DeactivationRound"`
 	Active            bool   `json:"Active"`
 	Status            string `json:"Status"`
 	PricePerPixel     string `json:"PricePerPixel"`
@@ -22,9 +26,9 @@ type DBOrchestrator struct {
 	LastRewardRound   int    `json:"LastRewardRound"`
 	RewardCut         int    `json:"RewardCut"`
 	FeeShare          int    `json:"FeeShare"`
-	DelegatedStake    int64  `json:"DelegatedStake"`
+	DelegatedStake    string  `json:"DelegatedStake"`
 	ActivationRound   int    `json:"ActivationRound"`
-	DeactivationRound int64  `json:"DeactivationRound"`
+	DeactivationRound string  `json:"DeactivationRound"`
 	Active            bool   `json:"Active"`
 	Status            string `json:"Status"`
 	PricePerPixel     string `json:"PricePerPixel"`

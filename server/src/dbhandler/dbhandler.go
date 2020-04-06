@@ -30,9 +30,9 @@ func DBInit() {
 			LastRewardRound INTEGER, 
 			RewardCut INTEGER, 
 			FeeShare INTEGER, 
-			DelegatedState INTEGER, 
+			DelegatedState TEXT, 
 			ActivationRound INTEGER, 
-			DeactivationRound INTEGER, 
+			DeactivationRound TEXT, 
 			Active INTEGER, 
 			Status TEXT, 
 			PricePerPixel INTEGER, 
@@ -72,7 +72,7 @@ func InsertOrchestrator(x types.Orchestrator) {
 		log.Errorln("Error in inserting orchestrator", x.Address)
 		log.Errorln(err.Error())
 	}
-	_, err = statement.Exec(x.Address, x.ServiceURI, x.LastRewardRound, x.RewardCut, x.FeeShare, x.DelegatedStake, x.ActivationRound, x.DeactivationRound, x.Active, x.Status, x.PricePerPixel, time.Now().Unix())
+	_, err = statement.Exec(x.Address, x.ServiceURI, x.LastRewardRound, x.RewardCut, x.FeeShare, x.DelegatedStake.String(), x.ActivationRound, x.DeactivationRound.String(), x.Active, x.Status, x.PricePerPixel, time.Now().Unix())
 	if err!=nil {
 		log.Errorln("Error in inserting orchestrator", x.Address)
 		log.Errorln(err.Error())
@@ -86,7 +86,7 @@ func UpdateOrchestrator(x types.Orchestrator) {
 		log.Errorln("Error in updating orchestrator", x.Address)
 		log.Errorln(err.Error())
 	}
-	_, err = statement.Exec(x.ServiceURI, x.LastRewardRound, x.RewardCut, x.FeeShare, x.DelegatedStake, x.ActivationRound, x.DeactivationRound, x.Active, x.Status, x.PricePerPixel, time.Now().Unix(), x.Address)
+	_, err = statement.Exec(x.ServiceURI, x.LastRewardRound, x.RewardCut, x.FeeShare, x.DelegatedStake.String(), x.ActivationRound, x.DeactivationRound.String(), x.Active, x.Status, x.PricePerPixel, time.Now().Unix(), x.Address)
 	if err != nil {
 		log.Errorln("Error in updating orchestrator", x.Address)
 		log.Errorln(err.Error())

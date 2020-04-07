@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"server/src/dbhandler"
+	"api/dataservice"
 
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
@@ -14,7 +14,7 @@ import (
 func GetOrchestratorStats(w http.ResponseWriter, req *http.Request) {
 	log.Infoln("GET /orchestratorStats")
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(dbhandler.FetchOrchestratorStatistics())
+	json.NewEncoder(w).Encode(dataservice.FetchOrchestratorStatistics())
 }
 
 // API endpoint handler for /priceHistory/{address}
@@ -22,7 +22,7 @@ func GetOrchestratorPriceHistory(w http.ResponseWriter, req *http.Request) {
 	params := mux.Vars(req)
 	log.Infof("GET /priceHistory/%s", params["address"])
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(dbhandler.FetchPricingHistory(params["address"]))
+	json.NewEncoder(w).Encode(dataservice.FetchPricingHistory(params["address"]))
 }
 
 // Starts the server on port number passed as serverPort

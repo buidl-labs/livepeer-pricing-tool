@@ -3,9 +3,9 @@ package main
 import (
 	"os"
 	
-	"server/src/dbhandler"
-	"server/src/datahandler"
-	"server/src/server"
+	"api/dataservice"
+	"api/usecase"
+	"api/server"
 	
 	log "github.com/sirupsen/logrus"
 )
@@ -31,10 +31,10 @@ func main() {
 	log.Info("Log file configured succesfully.")
 
 	// Initialize the pricing tool DB
-	dbhandler.DBInit()
+	dataservice.DBInit()
 	
 	// Start a concurrent service for period polling of data from broadcaster endpoint
-	go datahandler.PollForData()
+	go usecase.PollForData()
 
 	// Start the API server
 	server.StartServer(":9000")

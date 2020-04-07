@@ -1,10 +1,10 @@
-package dbhandler
+package dataservice
 
 import (
 	"database/sql"
 	"time"
 
-	"server/src/types"
+	"api/model"
 	
 	_ "github.com/mattn/go-sqlite3"
 	log "github.com/sirupsen/logrus"
@@ -66,7 +66,7 @@ func DBInit() {
 }
 
 // Adds orchestrator statistics to the database
-func InsertOrchestrator(x types.Orchestrator) {
+func InsertOrchestrator(x model.Orchestrator) {
 	statement, err := sqldb.Prepare("INSERT INTO Orchestrators (Address, ServiceURI, LastRewardRound, RewardCut, FeeShare, DelegatedState, ActivationRound, DeactivationRound, Active, Status, PricePerPixel, UpdatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
 	if err!=nil {
 		log.Errorln("Error in inserting orchestrator", x.Address)
@@ -80,7 +80,7 @@ func InsertOrchestrator(x types.Orchestrator) {
 }
 
 // Updates orchestrator statistics in the database
-func UpdateOrchestrator(x types.Orchestrator) {
+func UpdateOrchestrator(x model.Orchestrator) {
 	statement, err := sqldb.Prepare("UPDATE Orchestrators SET ServiceURI=?, LastRewardRound=?, RewardCut=?, FeeShare=?, DelegatedState=?, ActivationRound=?, DeactivationRound=?, Active=?, Status=?, PricePerPixel=?, UpdatedAt=? WHERE Address=?")
 	if err!=nil {
 		log.Errorln("Error in updating orchestrator", x.Address)
@@ -94,7 +94,7 @@ func UpdateOrchestrator(x types.Orchestrator) {
 }
 
 // Add price history to the database
-func InsertPriceHistory(x types.Orchestrator) {
+func InsertPriceHistory(x model.Orchestrator) {
 	statement, err := sqldb.Prepare("INSERT INTO PriceHistory (Address, Time, PricePerPixel) VALUES (?, ?, ?)")
 	if err!=nil {
 		log.Errorln("Error in inserting price history", x.Address)
@@ -108,15 +108,15 @@ func InsertPriceHistory(x types.Orchestrator) {
 }
 
 // Fetching orchestrator statistics
-func FetchOrchestratorStatistics() ([]types.DBOrchestrator) {
+func FetchOrchestratorStatistics() ([]model.DBOrchestrator) {
 
 	rows, err := sqldb.Query("SELECT * FROM Orchestrators")
 	if err != nil {
 		log.Errorln("Error in fetching orchestrator statistics")
 		log.Errorln(err.Error())
 	}
-	orchestrators := []types.DBOrchestrator{}
-	x := types.DBOrchestrator{}
+	orchestrators := []model.DBOrchestrator{}
+	x := model.DBOrchestrator{}
 	for rows.Next() {
 		rows.Scan(&x.Address, &x.ServiceURI, &x.LastRewardRound, &x.RewardCut, &x.FeeShare, &x.DelegatedStake, &x.ActivationRound, &x.DeactivationRound, &x.Active, &x.Status, &x.PricePerPixel, &x.UpdatedAt)
 		orchestrators = append(orchestrators, x)
@@ -125,15 +125,15 @@ func FetchOrchestratorStatistics() ([]types.DBOrchestrator) {
 }
 
 // Fetcing pricing history
-func FetchPricingHistory(address string) ([]types.PriceHistory) {
+func FetchPricingHistory(address string) ([]model.PriceHistory) {
 
 	rows, err := sqldb.Query("SELECT * FROM PriceHistory WHERE Address=? ORDER BY Time DESC", address)
 	if err != nil {
 		log.Errorln("Error in inserting price history for", address)
 		log.Errorln(err.Error())
 	}
-	data := []types.PriceHistory{}
-	x := types.PriceHistory{}
+	data := []model.PriceHistory{}
+	x := model.PriceHistory{}
 	for rows.Next() {
 		rows.Scan(&x.Address, &x.Time, &x.PricePerPixel)
 		data = append(data, x)

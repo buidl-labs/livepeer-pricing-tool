@@ -6,7 +6,7 @@ A tool for enhancing the price visibility in livepeer ecosystem.
 # How to Setup
 
 ### Prerequisites
-1. Setup a livepeer broadcaster node by following the instructions from [here](https://livepeer.readthedocs.io/en/latest/quickstart.html)
+1. Setup a livepeer broadcaster/orchestrator node by following the instructions from [here](https://livepeer.readthedocs.io/en/latest/quickstart.html)
 2. Install latest version of Go from [here](https://golang.org/doc/install)
 
 ### Setup of the tool

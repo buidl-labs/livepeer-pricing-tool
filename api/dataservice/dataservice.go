@@ -108,7 +108,7 @@ func InsertPriceHistory(x model.Orchestrator) {
 }
 
 // Fetching orchestrator statistics
-func FetchOrchestratorStatistics() ([]model.DBOrchestrator) {
+func FetchOrchestratorStatistics(excludeUnavailable bool) ([]model.DBOrchestrator) {
 
 	rows, err := sqldb.Query("SELECT * FROM Orchestrators")
 	if err != nil {
@@ -119,6 +119,9 @@ func FetchOrchestratorStatistics() ([]model.DBOrchestrator) {
 	x := model.DBOrchestrator{}
 	for rows.Next() {
 		rows.Scan(&x.Address, &x.ServiceURI, &x.LastRewardRound, &x.RewardCut, &x.FeeShare, &x.DelegatedStake, &x.ActivationRound, &x.DeactivationRound, &x.Active, &x.Status, &x.PricePerPixel, &x.UpdatedAt)
+		if excludeUnavailable==true && x.PricePerPixel=="0" {
+			continue
+		}
 		orchestrators = append(orchestrators, x)
 	}
 	return orchestrators

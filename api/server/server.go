@@ -3,6 +3,7 @@ package server
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"api/dataservice"
 
@@ -13,8 +14,13 @@ import (
 // API endpoint handler for /orchestratorStats
 func GetOrchestratorStats(w http.ResponseWriter, req *http.Request) {
 	log.Infoln("GET /orchestratorStats")
+	query := req.URL.Query()
+	excludeUnavailable, err := strconv.ParseBool(query.Get("excludeUnavailable"))
+	if err!=nil {
+		excludeUnavailable = true
+	}
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(dataservice.FetchOrchestratorStatistics())
+	json.NewEncoder(w).Encode(dataservice.FetchOrchestratorStatistics(excludeUnavailable))
 }
 
 // API endpoint handler for /priceHistory/{address}

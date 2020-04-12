@@ -10,7 +10,7 @@ export class OrchestratorStats extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://10.128.0.2:9000/orchestratorStats')
+        axios.get('http://35.223.32.189:9000/orchestratorStats')
         .then(res => this.setState({data: res.data}))
         .catch(err => console.log(err))
     }

@@ -8,6 +8,7 @@ import (
 	"api/dataservice"
 
 	"github.com/gorilla/mux"
+	"github.com/gorilla/handlers"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -37,5 +38,5 @@ func StartServer(serverPort string) {
 	router.HandleFunc("/orchestratorStats", GetOrchestratorStats).Methods("GET")
 	router.HandleFunc("/priceHistory/{address}", GetOrchestratorPriceHistory).Methods("GET")
 	log.Infoln("Starting server at PORT", serverPort)
-	log.Fatalln("Error in starting server", http.ListenAndServe(serverPort, router))
+	log.Fatalln("Error in starting server", http.ListenAndServe(serverPort, handlers.CORS()(router)))
 }

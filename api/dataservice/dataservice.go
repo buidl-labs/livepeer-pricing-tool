@@ -128,15 +128,15 @@ func FetchOrchestratorStatistics(excludeUnavailable bool) ([]model.DBOrchestrato
 }
 
 // Fetcing pricing history
-func FetchPricingHistory(address string) ([]model.PriceHistory) {
+func FetchPricingHistory(address string) ([]model.DBPriceHistory) {
 
 	rows, err := sqldb.Query("SELECT * FROM PriceHistory WHERE Address=? ORDER BY Time DESC", address)
 	if err != nil {
 		log.Errorln("Error in inserting price history for", address)
 		log.Errorln(err.Error())
 	}
-	data := []model.PriceHistory{}
-	x := model.PriceHistory{}
+	data := []model.DBPriceHistory{}
+	x := model.DBPriceHistory{}
 	for rows.Next() {
 		rows.Scan(&x.Address, &x.Time, &x.PricePerPixel)
 		data = append(data, x)

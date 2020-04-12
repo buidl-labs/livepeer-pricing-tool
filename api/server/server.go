@@ -4,13 +4,73 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"strings"
+	"math"
+	"math/big"
 
 	"api/dataservice"
+	"api/model"
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/handlers"
 	log "github.com/sirupsen/logrus"
 )
+
+func reformatPPPValue (ppp string) (float64) {
+	res :=	strings.Split(ppp, "/")
+	if len(res)==1 {
+		pppFloat, err := strconv.ParseFloat(ppp, 64)
+		if err!=nil {
+			log.Errorln("Error in parsing PPP as float", err.Error())
+		}
+		return pppFloat
+	}
+	num, err := strconv.ParseFloat(res[0], 64)
+	if err!=nil {
+		log.Errorln("Error in parsing PPP as float", err.Error())
+	}
+	den, err := strconv.ParseFloat(res[1], 64)
+	if err!=nil {
+		log.Errorln("Error in parsing PPP as float", err.Error())
+	}
+	pppFloat := num / den
+	pppFloat = math.Round(pppFloat*1000)/1000
+	return pppFloat
+}
+
+func reformatOrchestrator (x model.DBOrchestrator) (model.APIOrchestrator) {
+	orch := model.APIOrchestrator{}
+	n1 := new(big.Int)
+	n2 := new(big.Int)
+	orch.Address = x.Address
+	orch.ServiceURI = x.ServiceURI
+	orch.LastRewardRound = x.LastRewardRound
+	orch.RewardCut = x.RewardCut
+	orch.FeeShare = x.FeeShare
+	n1, ok := n1.SetString(x.DelegatedStake, 10)
+    if !ok {
+        log.Errorln("SetString: error")
+	}
+	orch.DelegatedStake = n1
+	orch.ActivationRound = x.ActivationRound
+	n2, ok = n2.SetString(x.DeactivationRound, 10)
+    if !ok {
+        log.Errorln("SetString: error")
+	}
+	orch.DeactivationRound = n2
+	orch.Active = x.Active
+	orch.Status = x.Status
+	orch.PricePerPixel = reformatPPPValue(x.PricePerPixel)
+	orch.UpdatedAt = x.UpdatedAt
+	return orch
+}
+
+func reformatPriceHistory(x model.DBPriceHistory) (model.APIPriceHistory) {
+	ph := model.APIPriceHistory{}
+	ph.Time = x.Time
+	ph.PricePerPixel = reformatPPPValue(x.PricePerPixel)
+	return ph
+}
 
 // API endpoint handler for /orchestratorStats
 func GetOrchestratorStats(w http.ResponseWriter, req *http.Request) {
@@ -20,16 +80,26 @@ func GetOrchestratorStats(w http.ResponseWriter, req *http.Request) {
 	if err!=nil {
 		excludeUnavailable = true
 	}
+	dborchs := dataservice.FetchOrchestratorStatistics(excludeUnavailable)
+	data := []model.APIOrchestrator{}
+	for _, x := range dborchs {
+		data = append(data, reformatOrchestrator(x))
+	}
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(dataservice.FetchOrchestratorStatistics(excludeUnavailable))
+	json.NewEncoder(w).Encode(data)
 }
 
 // API endpoint handler for /priceHistory/{address}
 func GetOrchestratorPriceHistory(w http.ResponseWriter, req *http.Request) {
 	params := mux.Vars(req)
 	log.Infof("GET /priceHistory/%s", params["address"])
+	dbphs := dataservice.FetchPricingHistory(params["address"])
+	data := []model.APIPriceHistory{}
+	for _, x := range dbphs {
+		data = append(data, reformatPriceHistory(x))
+	}
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(dataservice.FetchPricingHistory(params["address"]))
+	json.NewEncoder(w).Encode(data)
 }
 
 // Starts the server on port number passed as serverPort

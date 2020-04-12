@@ -34,7 +34,7 @@ export class App extends Component {
                         </div>
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>
-                        Made with <span style={{ color: 'orangered' }}>&hearts;</span> by 
+                        Made with <span style={{ color: 'orangered' }}>&hearts;</span> by {' '}
                         <a target="_blank" rel="noopener noreferrer" href="http://buidllabs.io/" className="card-link">
                         BUIDL Labs
                         </a>.

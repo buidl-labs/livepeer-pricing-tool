@@ -10,14 +10,14 @@ export class OrchestratorPriceHistory extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.address)
-        axios.get("http://localhost:9000/priceHistory/" + this.props.address)
+        // console.log(this.props.address)
+        axios.get("http://10.128.0.2:9000/priceHistory/" + this.props.address)
         .then(res => this.setState({data: res.data}))
         .catch(err => console.log(err))
     }
 
     render() {
-        console.log(this.state)
+        // console.log(this.state)
         if (this.state.data) {
             return (
                 <div>

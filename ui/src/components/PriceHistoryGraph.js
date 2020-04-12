@@ -18,10 +18,12 @@ export class PriceHistoryGraph extends Component {
                 labels: data.time,
                 datasets: [
                     {
-                        label: "PricePerPixel",
+                        label: "Price Per Pixel",
                         data: data.ppp,
                         fill: false,
-                        borderColor: "#26e98b"
+                        borderColor: "#07b35f",
+                        borderWidth: 2,
+                        pointRadius: 1.5
                     }
                 ]
             },
@@ -36,6 +38,7 @@ export class PriceHistoryGraph extends Component {
     }
 
     reformatData (data) {
+        data = data.reverse()
         let newdata = {
             time: [],
             ppp: []
@@ -50,25 +53,15 @@ export class PriceHistoryGraph extends Component {
     }
 
     render() {
-        let { data } = this.props.data
-        console.log(data)
-        data = this.reformatData(this.props.data)
-        console.log(data)
         return (
-            <div className={classes.graphContainer} style={graphStyle}>
+            <div className={classes.graphContainer}>
                 <canvas
                     id="myChart"
                     ref={this.chartRef}
-                    width="800px"
-                    height="600px"
                 />
             </div>
         )
     }
-}
-
-const graphStyle = {
-    margin: "0 auto"
 }
 
 export default PriceHistoryGraph

@@ -36,9 +36,9 @@ export class OrchestratorTable extends Component {
         title: 'Delegated Stake (LPT/LPTU)',
         dataIndex: 'DelegatedStake',
         align: 'center',
-        // sorter: {
-        //     compare: (a, b) => a.DelegatedStake - b.DelegatedStake
-        // },
+        sorter: {
+            compare: (a, b) => a.DelegatedStake - b.DelegatedStake
+        },
     },
     {
         title: 'Reward Cut (%)',
@@ -78,7 +78,7 @@ export class OrchestratorTable extends Component {
 
     processDelegatedStake(ds) {
         if (ds > 10**12) {
-            return (ds / 10**12).toString() + " LPT"
+            return (ds / 10**18).toString() + " LPT"
         } else {
             return ds.toString() + " LPTU"
         }

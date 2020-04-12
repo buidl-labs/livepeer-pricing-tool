@@ -10,13 +10,12 @@ export class OrchestratorStats extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:9000/orchestratorStats')
+        axios.get('http://10.128.0.2:9000/orchestratorStats')
         .then(res => this.setState({data: res.data}))
         .catch(err => console.log(err))
     }
 
     render() {
-        console.log(this.state.data)
         if (this.state.data) {
             return (
                 <React.Fragment>

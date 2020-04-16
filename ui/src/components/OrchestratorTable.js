@@ -10,7 +10,7 @@ export class OrchestratorTable extends Component {
         dataIndex: 'Address',
         align: 'center',
         render: text => <Link to={{
-                    pathname: "/priceHistory",
+                    pathname: "/priceHistory/"+text,
                     address: text
                 }}>
                     {text}

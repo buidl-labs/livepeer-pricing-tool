@@ -11,8 +11,7 @@ export class OrchestratorPriceHistory extends Component {
     }
 
     componentDidMount() {
-        // console.log(this.props.address)
-        axios.get(Config.api_url + "/priceHistory/" + this.props.address)
+        axios.get(Config.api_url + "/priceHistory/" + this.props.match.params.address)
         .then(res => this.setState({data: res.data}))
         .catch(err => console.log(err))
     }

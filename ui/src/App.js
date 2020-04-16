@@ -28,8 +28,8 @@ export class App extends Component {
                                 <OrchestratorStats />
                             )} />
 
-                            <Route path="/priceHistory" render={props => (
-                                <OrchestratorPriceHistory address={props.location.address} />
+                            <Route path="/priceHistory/:address" render={props => (
+                                <OrchestratorPriceHistory {...props} />
                             )} />
                         </div>
                     </Content>

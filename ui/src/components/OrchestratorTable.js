@@ -61,7 +61,7 @@ export class OrchestratorTable extends Component {
         dataIndex: 'PricePerPixel',
         align: 'center',
         sorter: {
-            compare: (a, b) => a.PricePerPixel - b.PricePerPixel
+            compare: (a, b) => a.PricePerPixelRaw - b.PricePerPixelRaw
         },
     },
     {
@@ -76,11 +76,41 @@ export class OrchestratorTable extends Component {
     },
     ];
 
+    formatNumber(num) {
+        num = num.toFixed(3)
+        num = num.toString()
+        let numstring = ""
+        let periodpos = num.indexOf(".")
+        let flag = 0
+        numstring = num.slice(periodpos, num.length)
+        for (let index = periodpos; index > 0; index=index-3) {
+            let start = index - 3
+            if (start < 0) {
+                start = 0
+            }
+            if(flag===0) {
+                numstring = num.slice(start, index) + numstring
+                flag = 1
+            } else {
+                numstring = num.slice(start, index) + "," + numstring
+            }
+        }
+        return numstring
+    }
+
     processDelegatedStake(ds) {
-        if (ds > 10**12) {
-            return (ds / 10**18).toString() + " LPT"
+        if (ds > 10**15) {
+            return this.formatNumber(ds / 10**18) + " LPT"
         } else {
-            return ds.toString() + " LPTU"
+            return this.formatNumber(ds) + " LPTU"
+        }
+    }
+
+    processPPP(ppp) {
+        if (ppp < 0) {
+            return "-" + this.formatNumber(Math.abs(ppp))
+        } else {
+            return this.formatNumber(Math.abs(ppp))
         }
     }
 
@@ -100,7 +130,8 @@ export class OrchestratorTable extends Component {
                 DeactivationRound: element.DeactivationRound,
                 Active: (element.Active ? "Active" : "Inactive"),
                 Status: element.Status,
-                PricePerPixel: element.PricePerPixel,
+                PricePerPixelRaw: element.PricePerPixel,
+                PricePerPixel: this.processPPP(element.PricePerPixel),
                 UpdatedAt: element.UpdatedAt
             })
         });

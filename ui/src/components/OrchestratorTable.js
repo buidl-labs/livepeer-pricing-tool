@@ -37,7 +37,7 @@ export class OrchestratorTable extends Component {
         dataIndex: 'DelegatedStake',
         align: 'center',
         sorter: {
-            compare: (a, b) => a.DelegatedStake - b.DelegatedStake
+            compare: (a, b) => a.DelegatedStakeRaw - b.DelegatedStakeRaw
         },
     },
     {
@@ -94,6 +94,7 @@ export class OrchestratorTable extends Component {
                 LastRewardRound: element.LastRewardRound,
                 RewardCut: element.RewardCut / 10000,
                 FeeShare: element.FeeShare / 10000,
+                DelegatedStakeRaw: element.DelegatedStake,
                 DelegatedStake: this.processDelegatedStake(element.DelegatedStake),
                 ActivationRound: element.ActivationRound,
                 DeactivationRound: element.DeactivationRound,

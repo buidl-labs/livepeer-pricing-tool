@@ -25,9 +25,9 @@ export class OrchestratorPriceHistory extends Component {
                         className="site-page-header"
                         backIcon="false"
                         title="Orchestrator Price History"
-                        subTitle={this.props.address}
+                        subTitle={this.props.match.params.address}
                     />
-                    <PriceHistoryGraph data={this.state.data} />
+                    <PriceHistoryGraph data={this.state.data} style={{ width: "80vw", height: "75vh"}}/>
                 </div>
             )
         } else {

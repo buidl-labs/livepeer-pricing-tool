@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PriceHistoryGraph from '../PriceHistoryGraph'
 import axios from 'axios'
 import { PageHeader } from 'antd';
+import Config from '../../Config';
 
 export class OrchestratorPriceHistory extends Component {
 
@@ -11,7 +12,7 @@ export class OrchestratorPriceHistory extends Component {
 
     componentDidMount() {
         // console.log(this.props.address)
-        axios.get("http://35.223.32.189:9000/priceHistory/" + this.props.address)
+        axios.get(Config.api_url + "/priceHistory/" + this.props.address)
         .then(res => this.setState({data: res.data}))
         .catch(err => console.log(err))
     }

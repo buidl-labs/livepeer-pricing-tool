@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import OrchestratorTable from '../OrchestratorTable'
 import { PageHeader } from 'antd';
+import Config from '../../Config'
 
 export class OrchestratorStats extends Component {
 
@@ -10,7 +11,7 @@ export class OrchestratorStats extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://35.223.32.189:9000/orchestratorStats')
+        axios.get(Config.api_url + '/orchestratorStats')
         .then(res => this.setState({data: res.data}))
         .catch(err => console.log(err))
     }

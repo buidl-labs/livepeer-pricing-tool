@@ -32,6 +32,9 @@ export class PriceHistoryGraph extends Component {
                 tooltips: {
                     displayColors: false
                 },
+                legend: {
+                    display: false
+                },
                 scales: {
                     xAxes: [{
                         type: "time",
@@ -43,7 +46,7 @@ export class PriceHistoryGraph extends Component {
                         },
                         scaleLabel: {
                             display: true,
-                            labelString: "Time"
+                            labelString: "Time (UTC)"
                         }
                     }],
                     yAxes: [{
@@ -52,7 +55,7 @@ export class PriceHistoryGraph extends Component {
                         },
                         scaleLabel: {
                             display: true,
-                            labelString: "Price Per Pixel"
+                            labelString: "Price Per Pixel (wei/pixel)"
                         }
                     }],
                 }

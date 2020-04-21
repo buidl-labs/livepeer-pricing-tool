@@ -1,0 +1,14 @@
+.graphContainer {
+    width: 80vw;
+    height: 75vh;
+    margin: 0 auto;
+    background: white;
+    padding: 30px 20px 10px 20px;
+    border-radius: 1px;
+}
+
+@media only screen and (max-width: 600px) {
+    .graphContainer {
+        width: 80vw;
+    }
+}

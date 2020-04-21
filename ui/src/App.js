@@ -1,6 +1,6 @@
 import logo from './logo.svg'
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 import OrchestratorStats from './components/pages/OrchestratorStats'
 import OrchestratorPriceHistory from './components/pages/OrchestratorPriceHistory'
@@ -18,8 +18,16 @@ export class App extends Component {
                 <Layout className="layout">
                     <Header>
                         <Row>
-                            <Col span={1}><img src={logo} alt="Logo" style={{ transform: "rotate(-90deg)" }} /></Col>
-                            <Col span={11}><h1 style={{ color: "white" }}>Livepeer | Pricing Tool </h1></Col>
+                            <Col span={1}>
+                                <Link to="/">
+                                    <img src={logo} alt="Logo" style={{ transform: "rotate(-90deg)" }} />
+                                </Link>
+                            </Col>
+                            <Col span={11}>
+                                <Link to="/">
+                                    <h1 style={{ color: "white" }}>Livepeer | Pricing Tool </h1>    
+                                </Link>
+                            </Col>
                         </Row>
                     </Header>
                     <Content style={{ padding: '0 50px', minHeight: '85vh' }}>

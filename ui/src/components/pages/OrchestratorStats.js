@@ -7,34 +7,48 @@ import Config from '../../Config'
 export class OrchestratorStats extends Component {
 
     state = {
-        data: null
+        data: null,
+        responseStatus: null
     }
 
     componentDidMount() {
         axios.get(Config.api_url + '/orchestratorStats')
-        .then(res => this.setState({data: res.data}))
-        .catch(err => console.log(err))
+        .then(res => {
+            this.setState({data: res.data, responseStatus: "success"})
+        })
+        .catch(err => {
+            console.log(err)
+            this.setState({data: null, responseStatus: "failed"})
+        })
     }
 
     render() {
-        if (this.state.data) {
+        if (!this.state.responseStatus) {
             return (
-                <React.Fragment>
-                    <PageHeader
-                        className="site-page-header"
-                        backIcon="false"
-                        title="Orchestrator Statistics"
-                        subTitle=""
-                    />
-                    <OrchestratorTable data={this.state.data} />
+                <React.Fragment> 
+                    <p>Fetching data from the server...</p>
                 </React.Fragment>
             )
         } else {
-            return (
-                <React.Fragment> 
-                    <p>Error in fetching data. Make sure the API is running at "localhost:9000". See console for more details.</p>
-                </React.Fragment>
-            )
+            if (this.state.data) {
+                return (
+                    <React.Fragment>
+                        <PageHeader
+                            className="site-page-header"
+                            backIcon="false"
+                            title="Orchestrator Statistics"
+                            subTitle=""
+                        />
+                        <OrchestratorTable data={this.state.data} />
+                    </React.Fragment>
+                )
+            } else {
+                return (
+                    <React.Fragment> 
+                        <p>Error in fetching data from the server. See console for more details.</p>
+                    </React.Fragment>
+                )
+            }
         }
     }
 }

@@ -2,43 +2,30 @@ package server
 
 import (
 	"encoding/json"
+	"math/big"
 	"net/http"
 	"strconv"
-	"strings"
-	"math"
-	"math/big"
 
 	"api/dataservice"
 	"api/model"
 
-	"github.com/gorilla/mux"
 	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 )
 
-func reformatPPPValue (ppp string) (float64) {
-	res :=	strings.Split(ppp, "/")
-	if len(res)==1 {
-		pppFloat, err := strconv.ParseFloat(ppp, 64)
-		if err!=nil {
-			log.Errorln("Error in parsing PPP as float", err.Error())
-		}
-		return pppFloat
+func reformatPPPValue(ppp string) float64 {
+	priceRat, ok := new(big.Rat).SetString(ppp)
+	if !ok {
+		// TODO: return error
+		// The returned error can be used to exclude orchestrators from the eventual list
+		return 0
 	}
-	num, err := strconv.ParseFloat(res[0], 64)
-	if err!=nil {
-		log.Errorln("Error in parsing PPP as float", err.Error())
-	}
-	den, err := strconv.ParseFloat(res[1], 64)
-	if err!=nil {
-		log.Errorln("Error in parsing PPP as float", err.Error())
-	}
-	pppFloat := num / den
-	pppFloat = math.Round(pppFloat*1000)/1000
-	return pppFloat
+	priceFloat, _ := priceRat.Float64()
+	return priceFloat
 }
 
-func reformatOrchestrator (x model.DBOrchestrator) (model.APIOrchestrator) {
+func reformatOrchestrator(x model.DBOrchestrator) model.APIOrchestrator {
 	orch := model.APIOrchestrator{}
 	n1 := new(big.Int)
 	n2 := new(big.Int)
@@ -48,14 +35,14 @@ func reformatOrchestrator (x model.DBOrchestrator) (model.APIOrchestrator) {
 	orch.RewardCut = x.RewardCut
 	orch.FeeShare = x.FeeShare
 	n1, ok := n1.SetString(x.DelegatedStake, 10)
-    if !ok {
-        log.Errorln("SetString: error")
+	if !ok {
+		log.Errorln("SetString: error")
 	}
 	orch.DelegatedStake = n1
 	orch.ActivationRound = x.ActivationRound
 	n2, ok = n2.SetString(x.DeactivationRound, 10)
-    if !ok {
-        log.Errorln("SetString: error")
+	if !ok {
+		log.Errorln("SetString: error")
 	}
 	orch.DeactivationRound = n2
 	orch.Active = x.Active
@@ -65,7 +52,7 @@ func reformatOrchestrator (x model.DBOrchestrator) (model.APIOrchestrator) {
 	return orch
 }
 
-func reformatPriceHistory(x model.DBPriceHistory) (model.APIPriceHistory) {
+func reformatPriceHistory(x model.DBPriceHistory) model.APIPriceHistory {
 	ph := model.APIPriceHistory{}
 	ph.Time = x.Time
 	ph.PricePerPixel = reformatPPPValue(x.PricePerPixel)
@@ -77,7 +64,7 @@ func GetOrchestratorStats(w http.ResponseWriter, req *http.Request) {
 	log.Infoln("GET /orchestratorStats")
 	query := req.URL.Query()
 	excludeUnavailable, err := strconv.ParseBool(query.Get("excludeUnavailable"))
-	if err!=nil {
+	if err != nil {
 		excludeUnavailable = true
 	}
 	dborchs := dataservice.FetchOrchestratorStatistics(excludeUnavailable)

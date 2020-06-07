@@ -9,29 +9,23 @@ export class OrchestratorTable extends Component {
         title: 'Address',
         dataIndex: 'Address',
         align: 'center',
-        render: text => <Link to={{
-                    pathname: "/priceHistory/"+text,
-                    address: text
-                }}>
-                    {text}
-                </Link>
     },
-    {
-        title: 'Activation Round',
-        dataIndex: 'ActivationRound',
-        align: 'center',
-        sorter: {
-            compare: (a, b) => a.ActivationRound - b.ActivationRound
-        },
-    },
-    {
-        title: 'Last Reward Round',
-        dataIndex: 'LastRewardRound',
-        align: 'center',
-        sorter: {
-            compare: (a, b) => a.LastRewardRound - b.LastRewardRound
-        },
-    },
+    // {
+    //     title: 'Activation Round',
+    //     dataIndex: 'ActivationRound',
+    //     align: 'center',
+    //     sorter: {
+    //         compare: (a, b) => a.ActivationRound - b.ActivationRound
+    //     },
+    // },
+    // {
+    //     title: 'Last Reward Round',
+    //     dataIndex: 'LastRewardRound',
+    //     align: 'center',
+    //     sorter: {
+    //         compare: (a, b) => a.LastRewardRound - b.LastRewardRound
+    //     },
+    // },
     {
         title: 'Delegated Stake (LPT/LPTU)',
         dataIndex: 'DelegatedStake',
@@ -57,23 +51,45 @@ export class OrchestratorTable extends Component {
         },
     },
     {
+        title: 'Total Fees Earned (ETH)',
+        dataIndex: 'TotalGeneratedFees',
+        align: 'center',
+        sorter: {
+            compare: (a, b) => a.TotalGeneratedFeesRaw - b.TotalGeneratedFeesRaw
+        }
+    },
+    {
         title: 'Price Per Pixel (wei/pixel)',
         dataIndex: 'PricePerPixel',
         align: 'center',
         sorter: {
             compare: (a, b) => a.PricePerPixelRaw - b.PricePerPixelRaw
-        },
+        }
     },
     {
-        title: 'Active',
-        dataIndex: 'Active',
+        title: 'Price History',
         align: 'center',
+        render: function (text, record, index) {
+            return (
+                <Link to={{
+                    pathname: "/priceHistory/"+record.Address,
+                    address: record.Address
+                }}>
+                    { "View" }
+                </Link>
+            )
+        }
     },
-    {
-        title: 'Status',
-        dataIndex: 'Status',
-        align: 'center',
-    },
+    // {
+    //     title: 'Active',
+    //     dataIndex: 'Active',
+    //     align: 'center',
+    // },
+    // {
+    //     title: 'Status',
+    //     dataIndex: 'Status',
+    //     align: 'center',
+    // },
     ];
 
     formatNumber(num) {
@@ -106,6 +122,11 @@ export class OrchestratorTable extends Component {
         }
     }
 
+    processFees(fees) {
+        fees = fees * 1.0
+        return this.formatNumber(fees / 10**18) + " ETH"
+    }
+
     processPPP(ppp) {
         if (ppp < 0) {
             return "-" + this.formatNumber(Math.abs(ppp))
@@ -132,7 +153,9 @@ export class OrchestratorTable extends Component {
                 Status: element.Status,
                 PricePerPixelRaw: element.PricePerPixel,
                 PricePerPixel: this.processPPP(element.PricePerPixel),
-                UpdatedAt: element.UpdatedAt
+                UpdatedAt: element.UpdatedAt,
+                TotalGeneratedFeesRaw: element.TotalGeneratedFees,
+                TotalGeneratedFees: this.processFees(element.TotalGeneratedFees),
             })
         });
         return newdata

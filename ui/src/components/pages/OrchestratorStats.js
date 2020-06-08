@@ -17,7 +17,7 @@ export class OrchestratorStats extends Component {
 
                 axios.post(Config.livepeer_api, {
                     query: `{
-                            transcoders {
+                            transcoders (orderBy:totalGeneratedFees) {
                                 totalGeneratedFees
                                 id
                             }
@@ -28,23 +28,26 @@ export class OrchestratorStats extends Component {
                 })
                 .then((result) => {
                     result = result.data.data.transcoders
+                    console.log(result)
                     let new_data = res.data
+
                     for (let i = 0; i < new_data.length; i++) {
                         new_data[i]["TotalGeneratedFees"] = null
-                        for (let j = 0; j < result.length; j++) { 
+                        for (let j = 0; j < result.length; j++) {
                             if (new_data[i].Address === result[j].id) {
-                                new_data[i]["TotalGeneratedFees"] = result[j].totalGeneratedFees
+                                console.log(new_data[i].Address, result[j].id)
+                                new_data[i]["TotalGeneratedFees"] = Number(result[j].totalGeneratedFees)
                                 break
                             }
                         } 
                     }
+                    console.log(new_data)
                     this.setState({ data: new_data, responseStatus: "success" })
                 })
                 .catch(err => {
                     console.log(err)
                     this.setState({ data: null, responseStatus: "failed" })
                 })
-                // this.setState({ data: res.data, responseStatus: "success" })
             })
             .catch(err => {
                 console.log(err)

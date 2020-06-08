@@ -51,7 +51,7 @@ export class OrchestratorTable extends Component {
         },
     },
     {
-        title: 'Total Fees Earned (ETH)',
+        title: 'Total Fees Earned (ETH/Wei)',
         dataIndex: 'TotalGeneratedFees',
         align: 'center',
         sorter: {
@@ -92,8 +92,8 @@ export class OrchestratorTable extends Component {
     // },
     ];
 
-    formatNumber(num) {
-        num = num.toFixed(3)
+    formatNumber(num, prec) {
+        num = num.toFixed(prec)
         num = num.toString()
         let numstring = ""
         let periodpos = num.indexOf(".")
@@ -116,22 +116,22 @@ export class OrchestratorTable extends Component {
 
     processDelegatedStake(ds) {
         if (ds > 10**15) {
-            return this.formatNumber(ds / 10**18) + " LPT"
+            return this.formatNumber(ds / 10**18, 3) + " LPT"
         } else {
-            return this.formatNumber(ds) + " LPTU"
+            return this.formatNumber(ds, 3) + " LPTU"
         }
     }
 
     processFees(fees) {
         fees = fees * 1.0
-        return this.formatNumber(fees / 10**18) + " ETH"
+        return this.formatNumber(fees / 10**18, 6) + " ETH"
     }
 
     processPPP(ppp) {
         if (ppp < 0) {
-            return "-" + this.formatNumber(Math.abs(ppp))
+            return "-" + this.formatNumber(Math.abs(ppp), 3)
         } else {
-            return this.formatNumber(Math.abs(ppp))
+            return this.formatNumber(Math.abs(ppp), 3)
         }
     }
 

@@ -22,9 +22,7 @@ In detail:
 2. Launch the API by `go run ./cmd/main.go`
 
 ### Accessing the API endpoints 
-Hit these enpoints on your browser:
-* localhost:9000/orchestratorStats
-* localhost:9000/priceHistory/{orchestrator_address}
+Please refer documentation for API usage [here](https://github.com/buidl-labs/livepeer-pricing-tool/tree/master/api).
 
 ### Hosting the UI
 1. Move into the "ui" directory by `cd ui`

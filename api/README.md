@@ -1,32 +1,8 @@
-# Livepeer Pricing Tool - API
+# Livepeer Pricing Tool - API Documentation
 
 An API for curating the off-chain orchestrator pricing information and exposing the data via various endpoints.
 
-<br/>
-
 ## Table of Contents
-* [Setup](#setup)
-* [Usage](#usage)
-
-<br/>
-
-
-## Setup
-
-### Prerequisites
-1. Setup a livepeer broadcaster/orchestrator node by following the instructions from [here](https://livepeer.readthedocs.io/en/latest/quickstart.html)
-2. Install latest version of Go from [here](https://golang.org/doc/install)
-3. Clone [this](https://github.com/buidl-labs/livepeer-pricing-tool) repository.
-
-### Hosting the API
-1. Move into the "api" directory by `cd api`
-2. Launch the API by `go run ./cmd/main.go`
-
-<br/>
-
-## Usage
-
-#### Table of Contents
 
 - [/orchestratorStats](#orchestratorStats)
     - Parameters
@@ -37,16 +13,16 @@ An API for curating the off-chain orchestrator pricing information and exposing 
 
 <br>
 
-#### /orchestratorStats
+### /orchestratorStats
 
 GET request returning an object array consisting of latest statistics for all the orchestrators.
 
-##### Parameters
+#### Parameters
 
 - excludeUnavailable = True [default] | False
     - This query parameter exludes the unavailable orchestrators from the list of returned orchestrators
 
-##### Examples
+#### Examples
 
 - Request
     - [http://35.223.32.189:9000/orchestratorStats](http://35.223.32.189:9000/orchestratorStats)
@@ -104,16 +80,16 @@ GET request returning an object array consisting of latest statistics for all th
 
 <br/>
 
-#### /priceHistory
+### /priceHistory
 
 GET request returning the price history corresponding to an orchestrator in the form of an object list containing timestamps and price per pixel for the respective timestamps.
 
-##### Parameters
+#### Parameters
 
 - Orchestrator Address ```/priceHistory/:OrchestratorAddress```
     - This path parameter constitutes of the the orchestrator address, for which the price history is required. The addresses can be fetched via [/orchestratorStats](#orchestratorStats) endpoint.
 
-##### Examples
+#### Examples
 
 - Request
     - [http://35.223.32.189:9000/priceHistory/0xda43d85b8d419a9c51bbf0089c9bd5169c23f2f9](http://35.223.32.189:9000/priceHistory/0xda43d85b8d419a9c51bbf0089c9bd5169c23f2f9)

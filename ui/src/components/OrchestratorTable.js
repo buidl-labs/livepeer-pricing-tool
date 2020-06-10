@@ -8,7 +8,7 @@ export class OrchestratorTable extends Component {
     {
         title: 'Address',
         dataIndex: 'Address',
-        align: 'center',
+        align: 'left',
     },
     // {
     //     title: 'Activation Round',
@@ -29,7 +29,7 @@ export class OrchestratorTable extends Component {
     {
         title: 'Delegated Stake',
         dataIndex: 'DelegatedStake',
-        align: 'center',
+        align: 'right',
         sorter: {
             compare: (a, b) => a.DelegatedStakeRaw - b.DelegatedStakeRaw
         },
@@ -37,7 +37,7 @@ export class OrchestratorTable extends Component {
     {
         title: 'Reward Cut',
         dataIndex: 'RewardCut',
-        align: 'center',
+        align: 'right',
         sorter: {
             compare: (a, b) => a.RewardCut - b.RewardCut
         },
@@ -46,7 +46,7 @@ export class OrchestratorTable extends Component {
     {
         title: 'Fee Share',
         dataIndex: 'FeeShare',
-        align: 'center',
+        align: 'right',
         sorter: {
             compare: (a, b) => a.FeeShare - b.FeeShare
         },
@@ -55,7 +55,7 @@ export class OrchestratorTable extends Component {
     {
         title: 'Total Fees Earned',
         dataIndex: 'TotalGeneratedFees',
-        align: 'center',
+        align: 'right',
         sorter: {
             compare: (a, b) => a.TotalGeneratedFeesRaw - b.TotalGeneratedFeesRaw
         }
@@ -63,7 +63,7 @@ export class OrchestratorTable extends Component {
     {
         title: 'Price Per Pixel',
         dataIndex: 'PricePerPixel',
-        align: 'center',
+        align: 'right',
         sorter: {
             compare: (a, b) => a.PricePerPixelRaw - b.PricePerPixelRaw
         }

@@ -45,13 +45,18 @@ export class App extends Component {
                                     <img src={logo} alt="Logo" style={{ transform: "rotate(-90deg)" }} />
                                 </Link>
                             </Col>
-                            <Col span={19}>
+                            <Col span={17}>
                                 <Link to="/">
                                     <h1 style={{ color: "white" }}> Livepeer | Pricing Tool </h1>    
                                 </Link>
                             </Col>
                             <Col span={4}>
                                 <button type="button" className="link-button" onClick={this.info}>Facing rendering issues?</button>
+                            </Col>
+                            <Col span={2}>
+                                <button type="button" className="link-button">
+                                    <a href="https://github.com/buidl-labs/livepeer-pricing-tool#faqs" target="_blank" rel="noopener noreferrer" style={{ color: "white" }}>FAQs</a>
+                                </button>
                             </Col>
                         </Row>
                     </Header>

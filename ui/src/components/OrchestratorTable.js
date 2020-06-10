@@ -27,7 +27,7 @@ export class OrchestratorTable extends Component {
     //     },
     // },
     {
-        title: 'Delegated Stake (LPT/LPTU)',
+        title: 'Delegated Stake',
         dataIndex: 'DelegatedStake',
         align: 'center',
         sorter: {
@@ -35,23 +35,25 @@ export class OrchestratorTable extends Component {
         },
     },
     {
-        title: 'Reward Cut (%)',
+        title: 'Reward Cut',
         dataIndex: 'RewardCut',
         align: 'center',
         sorter: {
             compare: (a, b) => a.RewardCut - b.RewardCut
         },
+        render: (text) => text + "%"
     },
     {
-        title: 'Fee Share (%)',
+        title: 'Fee Share',
         dataIndex: 'FeeShare',
         align: 'center',
         sorter: {
             compare: (a, b) => a.FeeShare - b.FeeShare
         },
+        render: (text) => text + "%"
     },
     {
-        title: 'Total Fees Earned (ETH/Wei)',
+        title: 'Total Fees Earned',
         dataIndex: 'TotalGeneratedFees',
         align: 'center',
         sorter: {
@@ -59,7 +61,7 @@ export class OrchestratorTable extends Component {
         }
     },
     {
-        title: 'Price Per Pixel (wei/pixel)',
+        title: 'Price Per Pixel',
         dataIndex: 'PricePerPixel',
         align: 'center',
         sorter: {
@@ -129,9 +131,9 @@ export class OrchestratorTable extends Component {
 
     processPPP(ppp) {
         if (ppp < 0) {
-            return "-" + this.formatNumber(Math.abs(ppp), 3)
+            return "-" + this.formatNumber(Math.abs(ppp), 3) + " wei"
         } else {
-            return this.formatNumber(Math.abs(ppp), 3)
+            return this.formatNumber(Math.abs(ppp), 3) + " wei"
         }
     }
 

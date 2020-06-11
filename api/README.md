@@ -25,8 +25,8 @@ GET request returning an object array consisting of latest statistics for all th
 #### Examples
 
 - Request
-    - [http://35.223.32.189:9000/orchestratorStats](http://35.223.32.189:9000/orchestratorStats)
-    - [http://35.223.32.189:9000/orchestratorStats?excludeUnavailable=False](http://35.223.32.189:9000/orchestratorStats?excludeUnavailable=False)
+    - [https://livepeer-pricing-tool.com/orchestratorStats](https://livepeer-pricing-tool.com/orchestratorStats)
+    - [https://livepeer-pricing-tool.com/orchestratorStats?excludeUnavailable=False](https://livepeer-pricing-tool.com/orchestratorStats?excludeUnavailable=False)
 
 
 - Response
@@ -92,7 +92,7 @@ GET request returning the price history corresponding to an orchestrator in the 
 #### Examples
 
 - Request
-    - [http://35.223.32.189:9000/priceHistory/0xda43d85b8d419a9c51bbf0089c9bd5169c23f2f9](http://35.223.32.189:9000/priceHistory/0xda43d85b8d419a9c51bbf0089c9bd5169c23f2f9)
+    - [https://livepeer-pricing-tool.com/priceHistory/0xda43d85b8d419a9c51bbf0089c9bd5169c23f2f9](https://livepeer-pricing-tool.com/priceHistory/0xda43d85b8d419a9c51bbf0089c9bd5169c23f2f9)
 
 
 - Response
